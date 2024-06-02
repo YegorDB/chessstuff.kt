@@ -2,7 +2,6 @@ val COLUMN_SIGNS = mutableListOf('a'..'h').flatten()
 val PIECE_COLOR_NAMES = mutableListOf("white", "black")
 val SQUARE_COLOR_NAMES = mutableListOf("light", "dark")
 
-
 class Board() {
     // main data is matrix 8x8
     // each item contains:
@@ -12,13 +11,15 @@ class Board() {
     // - piece to square interactions (move, xray) direct and reverse
 }
 
-
-data class Direction(val dx: Int, val dy: Int, val maxDistance: Int = 1)
-
+data class Direction(
+    val dx: Int,
+    val dy: Int,
+    val maxDistance: Int = 1
+)
 
 abstract class Piece(
     open val color: Int,
-    open val isFirstMove: Boolean = true
+    open var isFirstMove: Boolean = true
 ) {
     abstract fun moveDirections(): List<Direction>
     open fun attackDirections(): List<Direction>? = null
@@ -26,13 +27,12 @@ abstract class Piece(
     val colorName = PIECE_COLOR_NAMES[color]
 }
 
-
 class King(
     override val color: Int,
-    override val isFirstMove: Boolean = true
+    override var isFirstMove: Boolean = true
 ) : Piece(color, isFirstMove) {
     override fun moveDirections(): List<Direction> {
-        return mutableListOf(
+        return listOf(
             Direction(-1, -1),
             Direction(0, -1),
             Direction(1, -1),
@@ -45,29 +45,31 @@ class King(
     }
 }
 
-
 class Pawn(
     override val color: Int,
-    override val isFirstMove: Boolean = true
+    override var isFirstMove: Boolean = true
 ) : Piece(color, isFirstMove) {
     override fun moveDirections(): List<Direction> {
         val dy = if (isWhiteColor) -1 else 1
         val maxDistance = if (isFirstMove) 2 else 1
-        return mutableListOf(
+        return listOf(
             Direction(0, dy, maxDistance)
         )
     }
 
     override fun attackDirections(): List<Direction> {
         val dy = if (isWhiteColor) -1 else 1
-        val maxDistance = if (isFirstMove) 2 else 1
-        return mutableListOf(
-            Direction(-1, dy, maxDistance),
-            Direction(1, dy, maxDistance)
+        return listOf(
+            Direction(-1, dy),
+            Direction(1, dy)
         )
     }
 }
 
+// Special piece to take en passant - link to pawn
+data class PawnLink(
+    val pawn: Pawn
+)
 
 class Square(
     val x: Int,
@@ -83,8 +85,6 @@ class Square(
     val color = if (isLightColor) 0 else 1
     val colorName = SQUARE_COLOR_NAMES[color]
 }
-
-// TODO: to take en passant use special piece - link to pawn
 
 fun main() {
     // val s1 = Square(2, 2)
@@ -116,4 +116,7 @@ fun main() {
     println(p2.attackDirections())
     println(p2.colorName)
     println(p2.isFirstMove)
+
+    val pawnLink = PawnLink(p2)
+    println(pawnLink.pawn)
 }
