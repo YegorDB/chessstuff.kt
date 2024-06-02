@@ -112,6 +112,24 @@ class Bishop(
     }
 }
 
+class Queen(
+    override val color: Int,
+    override var isFirstMove: Boolean = true
+) : Piece(color, isFirstMove) {
+    override fun moveDirections(): List<Direction> {
+        return listOf(
+            Direction(-1, -1, 7),
+            Direction(0, -1, 7),
+            Direction(1, -1, 7),
+            Direction(-1, 0, 7),
+            Direction(1, 0, 7),
+            Direction(-1, 1, 7),
+            Direction(0, 1, 7),
+            Direction(1, 1, 7)
+        )
+    }
+}
+
 // Special piece to take en passant - link to pawn
 data class PawnLink(
     val pawn: Pawn
@@ -178,11 +196,19 @@ fun main() {
     // println(kn1.colorName())
     // println(kn1.isFirstMove)
 
-    val b1 = Bishop(0)
-    println(b1.moveDirections())
-    println(b1.attackDirections())
-    println(b1.color)
-    println(b1.isWhiteColor())
-    println(b1.colorName())
-    println(b1.isFirstMove)
+    // val b1 = Bishop(0)
+    // println(b1.moveDirections())
+    // println(b1.attackDirections())
+    // println(b1.color)
+    // println(b1.isWhiteColor())
+    // println(b1.colorName())
+    // println(b1.isFirstMove)
+
+    val q1 = Queen(1)
+    println(q1.moveDirections())
+    println(q1.attackDirections())
+    println(q1.color)
+    println(q1.isWhiteColor())
+    println(q1.colorName())
+    println(q1.isFirstMove)
 }
