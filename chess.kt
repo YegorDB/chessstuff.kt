@@ -80,6 +80,24 @@ class Rook(
     }
 }
 
+class Knight(
+    override val color: Int,
+    override var isFirstMove: Boolean = true
+) : Piece(color, isFirstMove) {
+    override fun moveDirections(): List<Direction> {
+        return listOf(
+            Direction(-1, -2),
+            Direction(1, -2),
+            Direction(-2, -1),
+            Direction(2, -1),
+            Direction(-2, 1),
+            Direction(2, 1),
+            Direction(-1, 2),
+            Direction(1, 2)
+        )
+    }
+}
+
 // Special piece to take en passant - link to pawn
 data class PawnLink(
     val pawn: Pawn
@@ -134,9 +152,15 @@ fun main() {
     // val pawnLink = PawnLink(p2)
     // println(pawnLink.pawn)
 
-    val r1 = Rook(1)
-    println(r1.moveDirections())
-    println(r1.attackDirections())
-    println(r1.colorName)
-    println(r1.isFirstMove)
+    // val r1 = Rook(1)
+    // println(r1.moveDirections())
+    // println(r1.attackDirections())
+    // println(r1.colorName)
+    // println(r1.isFirstMove)
+
+    val kn1 = Knight(1)
+    println(kn1.moveDirections())
+    println(kn1.attackDirections())
+    println(kn1.colorName)
+    println(kn1.isFirstMove)
 }
