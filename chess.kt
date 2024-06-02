@@ -23,8 +23,8 @@ abstract class Piece(
 ) {
     abstract fun moveDirections(): List<Direction>
     open fun attackDirections(): List<Direction>? = null
-    val isWhiteColor = color == 0
-    val colorName = PIECE_COLOR_NAMES[color]
+    fun isWhiteColor() = color == 0
+    fun colorName() = PIECE_COLOR_NAMES[color]
 }
 
 class King(
@@ -50,7 +50,7 @@ class Pawn(
     override var isFirstMove: Boolean = true
 ) : Piece(color, isFirstMove) {
     override fun moveDirections(): List<Direction> {
-        val dy = if (isWhiteColor) -1 else 1
+        val dy = if (isWhiteColor()) -1 else 1
         val maxDistance = if (isFirstMove) 2 else 1
         return listOf(
             Direction(0, dy, maxDistance)
@@ -58,7 +58,7 @@ class Pawn(
     }
 
     override fun attackDirections(): List<Direction> {
-        val dy = if (isWhiteColor) -1 else 1
+        val dy = if (isWhiteColor()) -1 else 1
         return listOf(
             Direction(-1, dy),
             Direction(1, dy)
@@ -98,6 +98,20 @@ class Knight(
     }
 }
 
+class Bishop(
+    override val color: Int,
+    override var isFirstMove: Boolean = true
+) : Piece(color, isFirstMove) {
+    override fun moveDirections(): List<Direction> {
+        return listOf(
+            Direction(-1, -1, 7),
+            Direction(1, -1, 7),
+            Direction(-1, 1, 7),
+            Direction(1, 1, 7)
+        )
+    }
+}
+
 // Special piece to take en passant - link to pawn
 data class PawnLink(
     val pawn: Pawn
@@ -123,30 +137,30 @@ fun main() {
     // println(s1.name)
     // println(s1.isLightColor)
     // println(s1.color)
-    // println(s1.colorName)
+    // println(s1.colorName())
 
     // val s2 = Square("b6")
     // println(s2.name)
     // println(s2.isLightColor)
     // println(s2.color)
-    // println(s2.colorName)
+    // println(s2.colorName())
 
     // val k1 = King(0)
     // println(k1.moveDirections())
     // println(k1.attackDirections())
-    // println(k1.colorName)
+    // println(k1.colorName())
     // println(k1.isFirstMove)
 
     // val p1 = Pawn(0)
     // println(p1.moveDirections())
     // println(p1.attackDirections())
-    // println(p1.colorName)
+    // println(p1.colorName())
     // println(p1.isFirstMove)
 
     // val p2 = Pawn(1, false)
     // println(p2.moveDirections())
     // println(p2.attackDirections())
-    // println(p2.colorName)
+    // println(p2.colorName())
     // println(p2.isFirstMove)
 
     // val pawnLink = PawnLink(p2)
@@ -155,12 +169,20 @@ fun main() {
     // val r1 = Rook(1)
     // println(r1.moveDirections())
     // println(r1.attackDirections())
-    // println(r1.colorName)
+    // println(r1.colorName())
     // println(r1.isFirstMove)
 
-    val kn1 = Knight(1)
-    println(kn1.moveDirections())
-    println(kn1.attackDirections())
-    println(kn1.colorName)
-    println(kn1.isFirstMove)
+    // val kn1 = Knight(1)
+    // println(kn1.moveDirections())
+    // println(kn1.attackDirections())
+    // println(kn1.colorName())
+    // println(kn1.isFirstMove)
+
+    val b1 = Bishop(0)
+    println(b1.moveDirections())
+    println(b1.attackDirections())
+    println(b1.color)
+    println(b1.isWhiteColor())
+    println(b1.colorName())
+    println(b1.isFirstMove)
 }
